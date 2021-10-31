@@ -1,0 +1,60 @@
+name: mini-build
+
+on:
+  # 每当 push 到 main 分支时触发部署
+  push:
+    branches: [main]
+    paths:
+      - mini/**
+      # 手动触发部署
+  pull_request:
+    branches: [main]
+    paths:
+      - mini/**
+  workflow_dispatch:
+
+jobs:
+  mini-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # “最近更新时间” 等 git 日志相关信息，需要拉取全部提交记录
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          # 选择要使用的 node 版本
+          node-version: '14'
+      # 缓存 node_modules
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: |
+            mini/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('mini/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      # 如果缓存没有命中，安装依赖
+      - name: Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: |
+          cd mini
+          yarn --frozen-lockfile
+      - name: Uniapp build
+        env:
+          VUE_APP_BASE_URL: ${{secrets.VUE_APP_BASE_URL}}
+        run: |
+          cd mini
+          build:mp-weixin
+      - name: upload
+        env:
+          UPLOAD_PRIVATE_KEY: ${{ secrets.UPLOAD_PRIVATE_KEY }}
+        run: |
+          cd mini
+          echo "$UPLOAD_PRIVATE_KEY" > private.key
+          npx mp-ci upload ./dist/build/mp-weixin --pkp=./private.key --no-test
