@@ -48,7 +48,12 @@ jobs:
         run: |
           cd vuepress-doc
           yarn docs:build
-
+      - name: CNAME
+        env:
+          DOCS_DOAMIN: ${{secrets.DOCS_DOAMIN}}
+        run: |
+          cd vuepress-doc/docs/.vuepress/dist
+          echo "$DOCS_DOAMIN" > CNAME
       # 查看 workflow 的文档来获取更多信息
       # @see https://github.com/crazy-max/ghaction-github-pages
       - name: Deploy to GitHub Pages
