@@ -33,6 +33,11 @@ export default {
           title: 'mate设置',
           url: `/pages/settings/settings?type=${settingEnum.TYPE_ENUM.MATE_ACCOUNT}`,
         },
+        {
+          icon: 'setting-fill',
+          title: '考勤功能设置',
+          url: `/pages/settings/settings?type=${settingEnum.TYPE_ENUM.WORK_RECORD_SETTING}`,
+        },
       ],
     };
   },

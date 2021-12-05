@@ -1,14 +1,15 @@
 <script>
 import store from '@/store';
+import dayjs from 'dayjs';
 
 export default {
   onLaunch: function () {
+    console.log(dayjs.locale());
     const updateManager = uni.getUpdateManager();
 
     // 检查小程序是否有新版本发布
-    updateManager.onCheckForUpdate((res) => {
+    updateManager.onCheckForUpdate(() => {
       // 请求完新版本信息的回调
-      console.log(res.hasUpdate);
     });
 
     // 小程序有新版本，则静默下载新版本，做好更新准备

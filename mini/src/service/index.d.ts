@@ -216,6 +216,31 @@ declare namespace API {
     getLesson(data: { date: string }): ApiPromise<Lesson[]>;
     pullLesson(data: { date: string }): ApiPromise<void>;
   }
+  export interface WorkRecordSetting {
+    /** 上个月剩下的休息时长 */
+    lastMonthRestDuration: number;
+    /** 自动生成开关 */
+    autoGenerateSwitch: boolean;
+    /** 固定的每周工作安排 休/A/A/A/A/A/休 */
+    fixedWeekWorkPlan: string;
+  }
+  export interface WorkRecord {
+    /** 记录类型 */
+    recordType: 'A' | 'B' | 'C' | '公' | '休';
+    /** 增减值 */
+    changeValue: number;
+    /** 备注 */
+    remark: string;
+    /** 日期 */
+    date: Date;
+  }
+
+  export interface WorkRecordServer {
+    getWorkRecordSetting(): ApiPromise<WorkRecordSetting | undefined>;
+    setWorkRecordSetting(data: WorkRecordSetting & { id: number }): ApiPromise<void>;
+    saveWorkRecord(data: WorkRecord): ApiPromise<void>;
+    getWorkRecord(data: { date: string }): ApiPromise<WorkRecord[]>;
+  }
 }
 type service = {
   user: API.UserService;
@@ -223,5 +248,6 @@ type service = {
   course: API.CourseService;
   lessonRecord: API.LessonRecordService;
   lesson: API.LessonService;
+  workRecord: API.WorkRecordServer;
 };
 export = service;

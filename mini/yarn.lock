@@ -10625,8 +10625,8 @@ uuid@^3.3.2, uuid@^3.4.0:
 
 uview-ui@^1.8.4:
   version "1.8.4"
-  resolved "https://registry.nlark.com/uview-ui/download/uview-ui-1.8.4.tgz#e32bbf2379421d319022e324e1cb7b5387d3bd44"
-  integrity sha1-4yu/I3lCHTGQIuMk4ct7U4fTvUQ=
+  resolved "http://134.175.9.174:5565/repository/npm-all/uview-ui/-/uview-ui-1.8.4.tgz#e32bbf2379421d319022e324e1cb7b5387d3bd44"
+  integrity sha512-Zr+D5dFdNy6CdHQLBEXeGq/w0LkjxzBtsgaaDwLl0P58g67H7fBBDvy6AzWK/k0c7dwPYMBiK7I4Tr9p92+0DA==
 
 v8-compile-cache@^2.0.3:
   version "2.2.0"

@@ -64,5 +64,6 @@ export class LessonService {
     );
     // 保存
     await this.lessonRepository.save(lesson);
+    return { isHoliday: res.isHoliday };
   }
 }

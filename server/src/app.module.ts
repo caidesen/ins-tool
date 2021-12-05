@@ -14,10 +14,13 @@ import { WorkRecordModule } from './work-record/work-record.module';
 import databaseConfig from './config/database.config';
 import wxConfig from './config/wx.config';
 import authConfig from './config/auth.config';
+import { ScheduleModule } from '@nestjs/schedule';
+
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
-      envFilePath: ['.env.local','.env'],
+      envFilePath: ['.env.local', '.env'],
       isGlobal: true,
       load: [databaseConfig, wxConfig, authConfig],
     }),

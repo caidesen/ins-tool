@@ -17,6 +17,11 @@ export default {
         {
           label: '课时月报',
           path: '/pages/lesson-record-report/lesson-record-report',
+          icon: 'file-text',
+        },
+        {
+          label: '考勤记录',
+          path: '/pages/work-record/list/index',
           icon: 'calendar',
         },
       ],

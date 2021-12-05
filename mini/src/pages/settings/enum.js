@@ -1,6 +1,12 @@
 const TYPE_ENUM = {
   MATE_ACCOUNT: 'MATE_ACCOUNT',
+  WORK_RECORD_SETTING: 'WORK_RECORD_SETTING',
+};
+const TYPE_NAME_ENUM = {
+  [TYPE_ENUM.MATE_ACCOUNT]: 'mate账号设置',
+  [TYPE_ENUM.WORK_RECORD_SETTING]: '考勤功能设置',
 };
 export default {
   TYPE_ENUM,
+  TYPE_NAME_ENUM,
 };

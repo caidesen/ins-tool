@@ -61,6 +61,12 @@
       "style": {
         "navigationBarTitleText": "账户验证"
       }
+    },
+    {
+      "path": "pages/work-record/list/index",
+      "style": {
+        "navigationBarTitleText": "考勤记录"
+      }
     }
   ],
   "globalStyle": {
