@@ -1,7 +1,18 @@
 import { BaseEntity } from '../../core/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
-export type WorkRecordRecordType = 'A' | 'B' | 'C' | '公' | '休' | '旷' | '年' | '调' | '产' | '婚';
+export type WorkRecordRecordType =
+  | 'A'
+  | 'B'
+  | 'C'
+  | '公'
+  | '休'
+  | '旷'
+  | '年'
+  | '调'
+  | '产'
+  | '婚'
+  | '';
 
 @Entity()
 export class WorkRecord extends BaseEntity {

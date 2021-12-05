@@ -7,7 +7,7 @@ import { WorkRecordSetting } from './entity/work-record-setting.entity';
 import { SettingsService } from '../settings/settings.service';
 import { LessonService } from '../lesson/lesson.service';
 import { MateUserInfo } from '../settings/entity/mate-user-info.entity';
-import { Interval } from '@nestjs/schedule';
+import { Cron, CronExpression, Interval } from '@nestjs/schedule';
 
 @Injectable()
 export class WorkRecordService {
@@ -40,16 +40,38 @@ export class WorkRecordService {
       mateUserId: mateInfo.mateUserId,
       date: dayjs(targetDate).format('YYYY-MM-DD'),
     });
+    /* 放假 */
     if (isHoliday) workRecord.recordType = '休';
-    else if (lessons.length === 0) workRecord.recordType = '休';
-    else {
-      const closingTime = lessons.reduce(
-        (a, b) => (dayjs(a, 'HH:mm').isAfter(dayjs(b.endTime, 'HH:mm')) ? a : b.endTime),
-        '',
-      );
+    if (lessons.length !== 0) {
+      const offTime = dayjs(
+        lessons.reduce(
+          (a, b) => (dayjs(a, 'HH:mm').isAfter(dayjs(b.endTime, 'HH:mm')) ? a : b.endTime),
+          '00:00',
+        ),
+        'HH:mm',
+      )
+        .add(30, 'minute')
+        .hour();
+      const onTime = dayjs(
+        lessons.reduce(
+          (a, b) => (dayjs(a, 'HH:mm').isBefore(dayjs(b.startTime, 'HH:mm')) ? a : b.startTime),
+          '23:59',
+        ),
+        'HH:mm',
+      ).hour();
       const standard = { A: 18, B: 19, C: 20 };
-      const overtime = standard[workRecord.recordType] - Number(closingTime.slice(0, 1));
-      if (overtime > 0) workRecord.changeValue = overtime;
+
+      /* 计算加班时间 */
+      if (['A', 'B', 'C'].includes(workRecord.recordType)) {
+        const overtime = offTime - standard[workRecord.recordType];
+        if (overtime > 0) workRecord.changeValue = overtime;
+      } else {
+        let overtime = offTime - onTime;
+        if (onTime < 12) overtime -= 1;
+        if (overtime > 0) workRecord.changeValue = overtime;
+      }
+    } else if (['A', 'B', 'C'].includes(workRecord.recordType)) {
+      workRecord.recordType = '';
     }
     await this.workRecordRepository.save(workRecord);
   }
@@ -57,7 +79,7 @@ export class WorkRecordService {
   /**
    * 自动运行
    */
-  // @Interval(1000 * 5)
+  @Cron(CronExpression.EVERY_DAY_AT_9PM)
   async autoSchedule() {
     const list = await this.workRecordSettingRepository.find({ autoGenerateSwitch: true });
     const targetDate = dayjs()
