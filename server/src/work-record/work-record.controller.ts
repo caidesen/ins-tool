@@ -7,7 +7,6 @@ import { WorkRecordSetting } from './entity/work-record-setting.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JWTAuthGuard } from '../auth/jwt-auth.guard';
 import * as dayjs from 'dayjs';
-import * as _ from 'lodash';
 
 @Controller('work-record')
 @UseGuards(JWTAuthGuard)
@@ -41,6 +40,7 @@ export class WorkRecordController {
     const month = dayjs(date, 'YYYY-MM');
     return this.workRecordRepository.find({
       date: Between(month.startOf('month').toDate(), month.endOf('month').toDate()),
+      userId,
     });
   }
 }
