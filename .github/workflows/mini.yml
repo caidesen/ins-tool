@@ -4,13 +4,9 @@ on:
   # 每当 push 到 main 分支时触发部署
   push:
     branches: [main]
-    paths:
-      - mini/**
+    tags:
+      - '*'
       # 手动触发部署
-  pull_request:
-    branches: [main]
-    paths:
-      - mini/**
   workflow_dispatch:
 
 jobs:
@@ -29,23 +25,23 @@ jobs:
           # 选择要使用的 node 版本
           node-version: '16'
       # 缓存 node_modules
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        id: yarn-cache
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      # 缓存
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
-          path: |
-            mini/node_modules
-            ~/.npm
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
 
       # 如果缓存没有命中，安装依赖
-      - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
+      - name: Install dependencies   
         run: |
           cd mini
-          yarn --frozen-lockfile
+          yarn --prefer-offline --frozen-lockfile
       - name: Uniapp build
         env:
           VUE_APP_BASE_URL: ${{secrets.VUE_APP_BASE_URL}}
