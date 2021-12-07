@@ -23,6 +23,9 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import settingEnum from '@/pages/settings/enum';
+
+const { version } = require('../../../package.json');
+
 export default {
   data() {
     return {
@@ -37,6 +40,11 @@ export default {
           icon: 'setting-fill',
           title: '考勤功能设置',
           url: `/pages/settings/settings?type=${settingEnum.TYPE_ENUM.WORK_RECORD_SETTING}`,
+        },
+        {
+          icon: 'error-circle-fill',
+          title: `当前版本  ${version}`,
+          url: '/pages/changelog/index',
         },
       ],
     };

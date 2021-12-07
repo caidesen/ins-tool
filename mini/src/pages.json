@@ -67,6 +67,11 @@
       "style": {
         "navigationBarTitleText": "考勤记录"
       }
+    },    {
+      "path": "pages/changelog/index",
+      "style": {
+        "navigationBarTitleText": "更新记录"
+      }
     }
   ],
   "globalStyle": {
