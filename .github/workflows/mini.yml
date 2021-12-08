@@ -46,6 +46,7 @@ jobs:
           VUE_APP_BASE_URL: ${{secrets.VUE_APP_BASE_URL}}
         run: |
           cd mini
+          yarn mergeChangelog
           yarn build:mp-weixin
       - name: generate key
         id: vars

@@ -40,8 +40,12 @@
     "test:ios": "cross-env UNI_PLATFORM=app-plus UNI_OS_NAME=ios jest -i",
     "test:mp-baidu": "cross-env UNI_PLATFORM=mp-baidu jest -i",
     "test:mp-weixin": "cross-env UNI_PLATFORM=mp-weixin jest -i",
-    "generateChangelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "mergeChangelog": "yarn generateChangelog && node ./script/mergeChangelog.js"
+    "generateChangelog": "conventional-changelog -t v -p cmyr-config -i CHANGELOG.md -s -r 0",
+    "mergeChangelog": "yarn generateChangelog && node ./script/mergeChangelog.js",
+    "postversion": "git push --tags && git push"
+  },
+  "changelog": {
+    "language": "zh"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.12.13",
@@ -84,6 +88,7 @@
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-plugin-import": "^1.11.0",
     "conventional-changelog-cli": "^2.1.1",
+    "conventional-changelog-cmyr-config": "^1.2.3",
     "cross-env": "^7.0.2",
     "eslint": "^7.18.0",
     "eslint-plugin-prettier": "^3.3.1",

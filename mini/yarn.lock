@@ -3623,6 +3623,13 @@ conventional-changelog-cli@^2.1.1:
     meow "^8.0.0"
     tempfile "^3.0.0"
 
+conventional-changelog-cmyr-config@^1.2.3:
+  version "1.2.3"
+  resolved "https://mirrors.cloud.tencent.com/npm/conventional-changelog-cmyr-config/-/conventional-changelog-cmyr-config-1.2.3.tgz#3a74f1c4a8acc0d74ee9b9340b9f33f60d21e22f"
+  integrity sha512-40TbEy9UChzCc++Crn3GFs5CwxAL2IFnY2LgpPfBARqCXP3s/edkqXCTukzg6HTqpsZeTOGai60jVub9lStdcA==
+  dependencies:
+    defaults "^1.0.3"
+
 conventional-changelog-codemirror@^2.0.8:
   version "2.0.8"
   resolved "https://mirrors.tencent.com/npm/conventional-changelog-codemirror/-/conventional-changelog-codemirror-2.0.8.tgz#398e9530f08ce34ec4640af98eeaf3022eb1f7dc"
