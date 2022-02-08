@@ -7,6 +7,7 @@ import { WorkRecordSetting } from './entity/work-record-setting.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JWTAuthGuard } from '../auth/jwt-auth.guard';
 import * as dayjs from 'dayjs';
+import * as _ from 'lodash';
 
 @Controller('work-record')
 @UseGuards(JWTAuthGuard)
@@ -32,7 +33,7 @@ export class WorkRecordController {
         userId,
         date: dto.date,
       }) ?? {};
-    record = { ...record, ...dto, userId };
+    record = { ...record, ..._.pick(dto, ['recordType', 'changeValue', 'date']), userId };
     return this.workRecordRepository.save(record);
   }
   @Get('find_record')

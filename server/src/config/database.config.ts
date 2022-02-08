@@ -2,7 +2,7 @@ import { registerAs } from '@nestjs/config';
 import { join } from 'path';
 
 export default registerAs('dbConfig', () => ({
-  type: 'mysql',
+  type: 'postgres',
   host: process.env.DATABASE_HOST,
   port: Number(process.env.DATABASE_PORT),
   database: process.env.DATABASE_DATABASE,
@@ -12,5 +12,5 @@ export default registerAs('dbConfig', () => ({
   entities: [join(__dirname, '../') + '/**/entity/*.entity{.ts,.js}'],
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development' ? 'all' : 'none',
-  timezone: '+08:00'
+  timezone: '+08:00',
 }));
